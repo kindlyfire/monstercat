@@ -1,6 +1,6 @@
 {
     "name": "monstercat",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Package to interact with the Monstercat Connect API",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
