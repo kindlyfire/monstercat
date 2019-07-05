@@ -1,0 +1,42 @@
+{
+    "name": "monstercat",
+    "version": "0.0.1",
+    "description": "Package to interact with the Monstercat Connect API",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc",
+        "prepublish": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kindlyfire/monstercat.git"
+    },
+    "keywords": [
+        "monstercat"
+    ],
+    "author": "Tijl Van den Brugghen <me@tijlvdb.me> (https://tijlvdb.me)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kindlyfire/monstercat/issues"
+    },
+    "homepage": "https://github.com/kindlyfire/monstercat#readme",
+    "files": [
+        "dist/**/*"
+    ],
+    "dependencies": {
+        "axios": "^0.19.0"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "semi": false,
+        "trailingComma": "none",
+        "tabWidth": 4,
+        "arrowParens": "avoid"
+    },
+    "devDependencies": {
+        "@types/node": "^12.0.12",
+        "typescript": "^3.5.2"
+    }
+}
