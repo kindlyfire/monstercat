@@ -54,9 +54,9 @@ export interface BrowseParams {
     playlistId: string
     albumId: string
     isrc: string
-    types: AlbumType[]
-    genres: string[]
-    tags: string[]
+    types: AlbumType[] | string
+    genres: string[] | string
+    tags: string[] | string
     sortOn: BrowseSortField
     sortDirection: BrowseSortDirection
 }
@@ -116,4 +116,20 @@ export interface Artist {
     about: string
     url: ResourceURL[]
     years: Array<number | null>
+}
+
+export interface CollectionQueryField {
+    field: string
+    value: string
+}
+
+export interface CollectionQueryOptions {
+    fields: string[] | string
+    ids: string[] | string
+    skip: number
+    limit: number
+    fuzzy: CollectionQueryField[] | string
+    fuzzyOr: CollectionQueryField[] | string
+    filters: CollectionQueryField[] | string
+    filtersOr: CollectionQueryField[] | string
 }

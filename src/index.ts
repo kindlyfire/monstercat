@@ -1,5 +1,13 @@
 import axios from 'axios'
-import { BrowseParams, Release, CollectionReply, Track, Artist } from './types'
+import {
+    BrowseParams,
+    Release,
+    CollectionReply,
+    Track,
+    Artist,
+    CollectionQueryOptions,
+    CollectionQueryField
+} from './types'
 export * from './types'
 
 function trimLeft(str: string, char: string) {
@@ -11,8 +19,22 @@ function trimLeft(str: string, char: string) {
 
 function prepareCommaParams(data: any, keys: string[]) {
     for (let k of keys) {
-        if (k in data) {
+        if (k in data && typeof data[k] !== 'string') {
             data[k] = (data[k] || []).join(',')
+        }
+    }
+    return data
+}
+
+function prepareFieldParams(data: any, keys: string[]) {
+    for (let k of keys) {
+        if (k in data && typeof data[k] !== 'string') {
+            data[k] = ((data[k] || []) as CollectionQueryField[])
+                .reduce(
+                    (prev, field) => [...prev, field.field, field.value],
+                    [] as string[]
+                )
+                .join(',')
         }
     }
     return data
@@ -40,28 +62,60 @@ export class MonstercatAPI {
         )
     }
 
-    tracks() {
-        return this.get<CollectionReply<Track>>('/catalog/track')
+    tracks(query: Partial<CollectionQueryOptions> = {}) {
+        return this.get<CollectionReply<Track>>(
+            '/catalog/track',
+            prepareFieldParams(prepareCommaParams(query, ['fields', 'ids']), [
+                'fuzzy',
+                'fuzzyOr',
+                'filters',
+                'filtersOr'
+            ])
+        )
     }
 
     track(id: string) {
         return this.get<Track>(`/catalog/track/${id}`)
     }
 
-    releases() {
-        return this.get<CollectionReply<Release>>('/catalog/release')
+    releases(query: Partial<CollectionQueryOptions> = {}) {
+        return this.get<CollectionReply<Release>>(
+            '/catalog/release',
+            prepareFieldParams(prepareCommaParams(query, ['fields', 'ids']), [
+                'fuzzy',
+                'fuzzyOr',
+                'filters',
+                'filtersOr'
+            ])
+        )
     }
 
     release(releaseOrCatalogID: string) {
         return this.get<Release>(`/catalog/release/${releaseOrCatalogID}`)
     }
 
-    releaseTracks(id: string) {
-        return this.get<CollectionReply<Track>>(`/catalog/release/${id}/tracks`)
+    releaseTracks(id: string, query: Partial<CollectionQueryOptions> = {}) {
+        return this.get<CollectionReply<Track>>(
+            `/catalog/release/${id}/tracks`,
+            prepareFieldParams(prepareCommaParams(query, ['fields', 'ids']), [
+                'fuzzy',
+                'fuzzyOr',
+                'filters',
+                'filtersOr'
+            ])
+        )
     }
 
-    artists() {
-        return this.get<CollectionReply<Artist>>('/catalog/artist')
+    artists(query: Partial<CollectionQueryOptions> = {}) {
+        return this.get<CollectionReply<Artist>>(
+            '/catalog/artist',
+            prepareFieldParams(prepareCommaParams(query, ['fields', 'ids']), [
+                'fuzzy',
+                'fuzzyOr',
+                'filters',
+                'filtersOr'
+            ])
+        )
     }
 
     artist(idOrvanityURI: string) {
