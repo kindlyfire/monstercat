@@ -2,7 +2,17 @@
 
 `monstercat` is a package to interact with the Monstercat Connect API. It has methods to get releases, tracks and artists. It also has corresponding types for these resources.
 
-Usage example:
+## Installation
+
+```sh
+npm i monstercat
+```
+
+```ts
+import { MonstercatAPI } from 'monstercat'
+```
+
+## Examples
 
 ```ts
 import { MonstercatAPI } from 'monstercat'
@@ -25,4 +35,18 @@ import { MonstercatAPI } from 'monstercat'
         console.log(`${track.artistsTitle} - ${track.title}`)
     }
 })()
+```
+
+Query options:
+
+```ts
+const tracks = await api.tracks({
+    fields: ['title', 'genrePrimary'],
+    skip: 50,
+    limit: 50,
+
+    // Also has fuzzyOr, filter, filterOr
+    fuzzy: [{ field: 'title', value: 'Slide' }],
+    fuzzy: 'title,Slide' // or this, same thing
+})
 ```
